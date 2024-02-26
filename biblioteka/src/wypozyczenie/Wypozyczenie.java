@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 
 public class Wypozyczenie {
-
     private static final int DLUGOSC_WYPOZYCZENIA = 30;
     private static final double KARA = 0.1;
     private Egzemplarz egzemplarz;
@@ -31,5 +30,22 @@ public class Wypozyczenie {
     public LocalDate prelonguj(){
         przewidywanaDataOddania = przewidywanaDataOddania.plusDays(DLUGOSC_WYPOZYCZENIA);
         return przewidywanaDataOddania;
+    }
+
+    public Egzemplarz getEgzemplarz() {
+        return egzemplarz;
+    }
+
+    public LocalDate getDataWypozczenia() {
+        return dataWypozczenia;
+    }
+
+    @Override
+    public String toString() {
+        return "Wypozyczenie{" +
+                "egzemplarz=" + egzemplarz +
+                ", dataWypozczenia=" + dataWypozczenia +
+                ", dataOddania=" + dataOddania +
+                '}';
     }
 }

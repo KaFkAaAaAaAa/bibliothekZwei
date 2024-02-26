@@ -4,6 +4,7 @@ import ksiazka.Ksiazka;
 import wypozyczenie.Egzemplarz;
 import wypozyczenie.Wypozyczenie;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -55,12 +56,16 @@ public class Biblioteka {
             case "Biografia" -> Gatunek.BIOGRAFIA;
             default -> Gatunek.KRYMINAL;
         };
-
-        System.out.println("Podaj autora: ");
-        String autor = scanner.nextLine();
+        Autor autor = stworzAutora();
 
         System.out.println("Podaj rok wydania: ");
         int rokWydania = scanner.nextInt();
+        Ksiazka ksiazka = new Ksiazka(tytul, gatunek, autor, rokWydania);
+        if(!ksiazki.contains(ksiazka)){
+            ksiazki.add(ksiazka);
+        }
+
+        egzemplarze.add(new Egzemplarz(ksiazka));
     }
     public Autor stworzAutora(){
         Scanner scanner = new Scanner(System.in);
@@ -76,7 +81,32 @@ public class Biblioteka {
 
         System.out.println("Podaj rok śmierci autora: ");
         int rokSmierci = scanner.nextInt();
-        return null;
+
+        return new Autor(imie, nazwisko, rokUrodzenia, rokSmierci);
+    }
+    public void wypozyczKsiazke(Egzemplarz e){
+        wypozyczenia.add(new Wypozyczenie(e));
+    }
+    public void oddajKsiazke(Ksiazka e, LocalDate data){
+        ArrayList<Wypozyczenie> prawdopodobneWypozyczenie = new ArrayList<>();
+        //krok 1: zmiejszenie zakresu wyszukiwania na podstawie daty
+        for (Wypozyczenie w: wypozyczenia){
+            if (w.getDataWypozczenia().equals(data)){
+                prawdopodobneWypozyczenie.add(w);
+            }
+        }
+        //krok 2: dalsze zmniejszenie zakresu na podstawie książki
+        for (Wypozyczenie w: prawdopodobneWypozyczenie){
+            if (w.getEgzemplarz().getKsiazka().equals(e)){
+                w.oddaj();
+                break;
+            }
+        }
     }
 
+    public void wyswietlWypozyczenia(){
+        for (Wypozyczenie w: wypozyczenia){
+            System.out.println(w);
+        }
+    }
 }

@@ -27,4 +27,12 @@ public class Egzemplarz {
     public void setStan(Stan stan) {
         this.stan = stan;
     }
+
+    @Override
+    public String toString() {
+        return "Egzemplarz{" +
+                "ksiazka=" + ksiazka +
+                ", stan=" + stan +
+                '}';
+    }
 }
